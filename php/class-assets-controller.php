@@ -67,7 +67,9 @@ class Assets_Controller {
 		}
 
 		if ( ! empty( $google_api_key ) ) {
-			wp_localize_script( MKDO_LFFGF_TEXT_DOMAIN, 'google_api_key', $google_api_key );
+			wp_localize_script( MKDO_LFFGF_TEXT_DOMAIN, 'jshelper', [
+				'google_api_key' => $google_api_key
+			] );
 		}
 
 		// Google Maps API

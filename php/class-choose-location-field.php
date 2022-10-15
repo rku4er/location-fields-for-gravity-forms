@@ -68,7 +68,7 @@ class Choose_Location_Field extends \GF_Field {
 			?>
 			<li class="display_type_setting field_setting">
 				<label for="display_type_admin_label" class="section_label">
-					<?php _e( 'Display Type', MKDO_LFGF_TEXT_DOMAIN ); ?>
+					<?php _e( 'Display Type', MKDO_LFFGF_TEXT_DOMAIN ); ?>
 					<?php gform_tooltip( 'display_type' ) ?>
 				</label>
 				<select id="display_type" onchange="SetFieldProperty( 'display_type', this.value );">
@@ -79,7 +79,7 @@ class Choose_Location_Field extends \GF_Field {
 			</li>
 			<li class="alternate_input_setting field_setting">
 				<label for="alternate_input_admin_label" class="section_label">
-					<?php _e( 'Alternate Input', MKDO_LFGF_TEXT_DOMAIN ); ?>
+					<?php _e( 'Alternate Input', MKDO_LFFGF_TEXT_DOMAIN ); ?>
 					<?php gform_tooltip( 'alternate_input' ) ?>
 				</label>
 				<input type="text" id="alternate_input" onkeyup="SetFieldProperty( 'alternate_input', this.value );"/>
@@ -144,8 +144,8 @@ class Choose_Location_Field extends \GF_Field {
 	 * @return Array                An array of tooltips
 	 */
 	public function gform_tooltips( $tooltips ) {
-		$tooltips['choose_location'] = __( 'Show the search field', TEXTDOMAIN );
-		$tooltips['alternate_input'] = __( 'Use an alterate input to choose location. Enter the CSS selector here.', TEXTDOMAIN );
+		$tooltips['choose_location'] = __( 'Show the search field', MKDO_LFFGF_TEXT_DOMAIN );
+		$tooltips['alternate_input'] = __( 'Use an alterate input to choose location. Enter the CSS selector here.', MKDO_LFFGF_TEXT_DOMAIN );
 
 		return $tooltips;
 	}
@@ -285,6 +285,11 @@ class Choose_Location_Field extends \GF_Field {
 			<input type='hidden' nbame='lffgf-alternate-input' value='{$alternate_input}' class='lffgf-alternate-input'/>
 			{$input3}
 			<div class='lffgf-map'></div>
+			<div class='infowindow-content'>
+				<img src='' width='16' height='16' class='place-icon' />
+				<span class='place-name title'></span><br>
+				<span class='place-address'></span>
+			</div>
 			<span id='{$field_id}_1_container' class='longitute'>
 				{$input1}{$label1}
 			</span>
@@ -292,7 +297,7 @@ class Choose_Location_Field extends \GF_Field {
 				{$input2}{$label2}
 			</span>
 			<div class='gf_clear gf_clear_complex'></div>
-        </div>
+		</div>
 		";
 	}
 
