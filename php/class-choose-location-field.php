@@ -42,6 +42,8 @@ class Choose_Location_Field extends \GF_Field {
 				new Input( field.id + 0.1, "<?php _e( 'Longitude', MKDO_LFFGF_TEXT_DOMAIN ); ?>" ),
 				new Input( field.id + 0.2, "<?php _e( 'Latitude', MKDO_LFFGF_TEXT_DOMAIN ); ?>" ),
 				new Input( field.id + 0.3, "<?php _e( 'Search', MKDO_LFFGF_TEXT_DOMAIN ); ?>" ),
+				new Input( field.id + 0.4, "<?php _e( 'City', MKDO_LFFGF_TEXT_DOMAIN ); ?>" ),
+				new Input( field.id + 0.5, "<?php _e( 'Country', MKDO_LFFGF_TEXT_DOMAIN ); ?>" ),
 			];
 		break;
 		<?php
@@ -226,11 +228,15 @@ class Choose_Location_Field extends \GF_Field {
 		$longitute = null;
 		$latitude  = null;
 		$search    = null;
+		$city      = null;
+		$country   = null;
 
 		if ( is_array( $value ) ) {
 			$longitute = esc_attr( \RGForms::get( $this->id . '.1', $value ) );
 			$latitude  = esc_attr( \RGForms::get( $this->id . '.2', $value ) );
 			$search    = esc_attr( \RGForms::get( $this->id . '.3', $value ) );
+			$city      = esc_attr( \RGForms::get( $this->id . '.4', $value ) );
+			$country   = esc_attr( \RGForms::get( $this->id . '.5', $value ) );
 		}
 
 		/**
@@ -238,6 +244,8 @@ class Choose_Location_Field extends \GF_Field {
 		 */
 		$field_type         = is_admin() ? 'text' : 'hidden';
 		$field_type_search  = ( is_admin() || '' !== $this->display_type ) ? 'hidden' : 'text';
+		$field_type_city    = is_admin() ? 'text' : 'hidden';
+		$field_type_country = is_admin() ? 'text' : 'hidden';
 
 		/**
 		 * Get the input values
@@ -245,6 +253,8 @@ class Choose_Location_Field extends \GF_Field {
 		$longitute_input = \GFFormsModel::get_input( $this, $this->id . '.1' );
 		$latitude_input  = \GFFormsModel::get_input( $this, $this->id . '.2' );
 		$search_input    = \GFFormsModel::get_input( $this, $this->id . '.3' );
+		$city_input      = \GFFormsModel::get_input( $this, $this->id . '.4' );
+		$country_input   = \GFFormsModel::get_input( $this, $this->id . '.5' );
 
 		/**
 		 * Get the placeholder attributes (if set)
@@ -252,6 +262,8 @@ class Choose_Location_Field extends \GF_Field {
 		$longitute_placeholder_attribute = \GFCommon::get_input_placeholder_attribute( $longitute_input );
 		$latitude_placeholder_attribute  = \GFCommon::get_input_placeholder_attribute( $latitude_input );
 		$search_placeholder_attribute    = \GFCommon::get_input_placeholder_attribute( $search_input );
+		$city_placeholder_attribute      = \GFCommon::get_input_placeholder_attribute( $city_input );
+		$country_placeholder_attribute   = \GFCommon::get_input_placeholder_attribute( $country_input );
 
 		/**
 		 * Get the tab indexes
@@ -259,6 +271,8 @@ class Choose_Location_Field extends \GF_Field {
 		$longitute_tabindex = $this->get_tabindex();
 		$latitude_tabindex  = $this->get_tabindex();
 		$search_tabindex    = $this->get_tabindex();
+		$city_tabindex      = $this->get_tabindex();
+		$country_tabindex   = $this->get_tabindex();
 
 		/**
 		 * Set the labels (these could be manually set if the backend is configured)
@@ -266,6 +280,8 @@ class Choose_Location_Field extends \GF_Field {
 		$longitute_label = rgar( $longitute_input, 'customLabel' ) != '' ? $longitute_input['customLabel'] : gf_apply_filters( array( 'longitude', $form_id ), esc_html__( 'Longitude', MKDO_LFFGF_TEXT_DOMAIN ), $form_id );
 		$latitude_label  = rgar( $latitude_input, 'customLabel' ) != '' ? $latitude_input['customLabel'] : gf_apply_filters( array( 'latitude', $form_id ), esc_html__( 'Latitude', MKDO_LFFGF_TEXT_DOMAIN ), $form_id );
 		$search_label    = rgar( $search_input, 'customLabel' ) != '' ? $search_input['customLabel'] : gf_apply_filters( array( 'search', $form_id ), esc_html__( 'Search for Address', MKDO_LFFGF_TEXT_DOMAIN ), $form_id );
+		$city_label      = rgar( $city_input, 'customLabel' ) != '' ? $city_input['customLabel'] : gf_apply_filters( array( 'city', $form_id ), esc_html__( 'City', MKDO_LFFGF_TEXT_DOMAIN ), $form_id );
+		$country_label   = rgar( $country_input, 'customLabel' ) != '' ? $country_input['customLabel'] : gf_apply_filters( array( 'country', $form_id ), esc_html__( 'Country', MKDO_LFFGF_TEXT_DOMAIN ), $form_id );
 
 		/**
 		 * Create the labels and the fields
@@ -273,10 +289,14 @@ class Choose_Location_Field extends \GF_Field {
 		$label1 = "<label for='{$field_id}_1' {$sub_label_class_attribute}>{$longitute_label}</label>";
 		$label2 = "<label for='{$field_id}_2' {$sub_label_class_attribute}>{$latitude_label}</label>";
 		$label3 = "<label for='{$field_id}_3' {$sub_label_class_attribute}>{$search_label}</label>";
+		$label4 = "<label for='{$field_id}_4' {$sub_label_class_attribute}>{$city_label}</label>";
+		$label5 = "<label for='{$field_id}_5' {$sub_label_class_attribute}>{$country_label}</label>";
 
 		$input1 = "<input type='{$field_type}' class='lffgf-longitude' name='input_{$id}.1' id='{$field_id}_1' value='{$longitute}' {$longitute_tabindex}  {$disabled_text} {$longitute_placeholder_attribute} />";
 		$input2 = "<input type='{$field_type}' class='lffgf-latitude' name='input_{$id}.2' id='{$field_id}_2' value='{$latitude}' {$latitude_tabindex}  {$disabled_text} {$latitude_placeholder_attribute} />";
 		$input3 = "<input type='{$field_type_search}' class='lffgf-search' name='input_{$id}.3' id='{$field_id}_3' value='{$search}' {$search_tabindex}  {$disabled_text} {$search_placeholder_attribute} />{$label3}";
+		$input4 = "<input type='{$field_type_city}' class='lffgf-city' name='input_{$id}.4' id='{$field_id}_4' value='{$city}' {$city_tabindex}  {$disabled_text} {$city_placeholder_attribute} />";
+		$input5 = "<input type='{$field_type_country}' class='lffgf-country' name='input_{$id}.5' id='{$field_id}_5' value='{$country}' {$country_tabindex}  {$disabled_text} {$country_placeholder_attribute} />";
 
 		$alternate_input = $this->alternate_input;
 
@@ -295,6 +315,12 @@ class Choose_Location_Field extends \GF_Field {
 			</span>
 			<span id='{$field_id}_2_container' class='latitude'>
 				{$input2}{$label2}
+			</span>
+			<span id='{$field_id}_4_container' class='city'>
+				{$input4}{$label4}
+			</span>
+			<span id='{$field_id}_5_container' class='country'>
+				{$input5}{$label5}
 			</span>
 			<div class='gf_clear gf_clear_complex'></div>
 		</div>

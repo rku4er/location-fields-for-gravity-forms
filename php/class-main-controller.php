@@ -29,7 +29,7 @@ class Main_Controller {
 		Choose_Location_Field $choose_location_field
 	) {
 		$this->plugin_options          = $plugin_options;
-        $this->assets_controller       = $assets_controller;
+		$this->assets_controller       = $assets_controller;
 		$this->admin_notices           = $admin_notices;
 		$this->choose_location_field   = $choose_location_field;
 	}
